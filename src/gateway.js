@@ -37,6 +37,16 @@ function delete_child(path) {
     invoke('delete_child', { path: path.replace('.md', '') })
 }
 
+function set_theme(theme) {
+    invoke('set_theme', { name: theme })
+}
+
+async function get_theme() {
+    const res = await invoke('get_theme');
+
+    return res;
+}
+
 async function new_file() {
     const res = await invoke('new_file');
 
@@ -78,4 +88,8 @@ async function ask_for_file() {
     if (result) return result.replace('.md', '');
 
     return;
+}
+
+function writeText(text){
+    tauri.clipboard.writeText(text);
 }

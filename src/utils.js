@@ -3,10 +3,13 @@ async function handleCommandPrompt(text, args) {
     switch (text) {
         case 'New file':
             await manage_new_file();
+            toast("New file created.");
 
             break;
         case 'Close current file':
             await close_file();
+            toast("Current file closed.");
+
             break;
 
         case 'Command pallet':
@@ -22,11 +25,31 @@ async function handleCommandPrompt(text, args) {
             break;
         case 'Open file':
             handle_open_file(args);
+            toast("File opening initiated.");
+
             break;
         case 'Switch file (quick)':
             handle_switch_quick();
             break;
+        case 'Copy HTML output':
+            writeText(document.querySelector('.ck-content').innerHTML);
+            toast("HTML output copied to clipboard");
+
+            break;
+        case 'Change theme':
+            window.animateDiv(true, $('#popup'))
+            window.animateDiv(undefined, $('#cssStyling'));
     }
+}
+
+function toast(message, duration = 2000) {
+    Toastify({
+        text: '<img width="20" height="20" src="./assets/exclamation.png"/>' + message,
+        duration: duration,
+        close: false,
+        stopOnFocus: true,
+        escapeMarkup: false,
+    }).showToast();
 }
 
 async function handle_switch_quick() {
@@ -101,7 +124,7 @@ async function get_tabs() {
 
 function update_words(content) {
     const chars = content.length;
-    const words = content.match(/(\w+)/g)?.length || 0
+    const words = content.match(/([^ ]+)/g)?.length || 0
 
     $('#chars').text(chars?.toLocaleString());
     $('#words').text(words?.toLocaleString());
@@ -211,4 +234,20 @@ async function delete_tab(target) {
 
     await manage_tabs(tabs_);
     await update_active(next);
+}
+
+function changeTheme(cssUrl) {
+    console.log(cssUrl)
+    const linkElement = $('<link>');
+    linkElement.attr('rel', 'stylesheet');
+    linkElement.attr('href', cssUrl);
+
+    $('link[data-theme]').remove();
+
+    linkElement.attr('data-theme', 'dynamic-theme');
+
+    $('head').append(linkElement);
+
+    set_theme(cssUrl);
+    window.themeInput.val(cssUrl);
 }
