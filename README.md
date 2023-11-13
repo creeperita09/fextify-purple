@@ -1,6 +1,6 @@
-# Fextify purple (very WIP)
+# Fextify plain purple (very WIP)
 <img src='assets\example.png'>
-A simple text editor written in Tauri, inspired by Obsidian.
+Just a simple plain purple theme for a simple text editor written in Tauri, inspired by Obsidian.
 
 <br>
 
